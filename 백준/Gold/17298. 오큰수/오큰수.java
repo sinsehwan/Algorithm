@@ -8,49 +8,36 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+        Stack<Integer> stack = new Stack<>();
+
         int caseNum = Integer.parseInt(br.readLine());
 
-        String inputList = br.readLine();
+        String input = br.readLine();
 
-        int[] numList = Arrays.stream(inputList.split(" "))
-                        .mapToInt(Integer::parseInt)
-                                .toArray();
+        int[] inputArr = Arrays.stream(input.split(" "))
+                        .mapToInt(Integer::parseInt).toArray();
 
-        Stack<Integer> temp = new Stack<>();
-
-        for (int item : numList)
+        for(int i = 0; i < inputArr.length; i++)
         {
-            temp.add(item);
-        }
-
-        Stack<Integer> element = new Stack<>();
-        int[] nge = new int[caseNum];
-        int ngeIndex = caseNum - 1;
-
-        while(!temp.isEmpty())
-        {
-            int data = temp.pop();
-
-            while(!element.isEmpty() && element.peek() <= data){
-                element.pop();
-            }
-            if(element.isEmpty())
+            while(!stack.isEmpty() && inputArr[stack.peek()] < inputArr[i])
             {
-                nge[ngeIndex] = -1;
+                inputArr[stack.pop()] = inputArr[i];
             }
-            else{
-                nge[ngeIndex] = element.peek();
-            }
-            ngeIndex -= 1;
-            element.add(data);
+
+            stack.push(i);
         }
 
-        for (int item : nge){
+        while(!stack.empty())
+        {
+            inputArr[stack.pop()] = -1;
+        }
+
+        for (int item : inputArr)
+        {
             bw.write(item + " ");
         }
 
         br.close();
         bw.close();
     }
-
 }
