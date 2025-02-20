@@ -6,46 +6,44 @@ public class Main {
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     static int n;
+    static int[] arr;
 
-    static boolean[] good;
-
-    static ArrayList<Integer> arr = new ArrayList<>();
+    static boolean[] isGood;
 
     public static void main(String[] args) throws IOException {
-        n = Integer.parseInt(br.readLine());
-        good = new boolean[n];
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        for(int i = 0; i < n; i++){
-            arr.add(Integer.parseInt(st.nextToken()));
-        }
-
-        Collections.sort(arr);
+        init();
 
         for(int i = 0; i < n; i++){
             for(int j = i + 1; j < n; j++){
-                int target = arr.get(i) + arr.get(j);
-                int idx = binarySearch(target);
+                int sum = arr[i] + arr[j];
+
+                int idx = binarySearch(sum);
                 if(idx != -1 && idx != i && idx != j){
-                    good[idx] = true;
+                    isGood[idx] = true;
                 }
             }
         }
 
-        int goodNum = 0;
-
+        int count = 0;
         for(int i = 0; i < n; i++){
-            if(good[i]){
-                goodNum += getUpperIdx(arr.get(i)) - getLowerIdx(arr.get(i));
-                //System.out.println(getUpperIdx(arr.get(i)) - getLowerIdx(arr.get(i)) + ", " + arr.get(i));
+            if(isGood[i]){
+                count += getUpperIdx(arr[i]) - getLowerIdx(arr[i]);
             }
         }
 
-        bw.write(goodNum + "");
+        bw.write(count + "");
 
         br.close();
         bw.close();
+    }
+
+    public static void init() throws IOException{
+        n = Integer.parseInt(br.readLine());
+        isGood = new boolean[n];
+        arr = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt).toArray();
+
+        Arrays.sort(arr);
     }
 
     public static int binarySearch(int target){
@@ -54,10 +52,10 @@ public class Main {
 
         while(st <= en){
             int mid = st + (en - st) / 2;
-            if(arr.get(mid) < target){
+            if(arr[mid] < target){
                 st = mid + 1;
             }
-            else if(arr.get(mid) > target){
+            else if(arr[mid] > target){
                 en = mid - 1;
             }
             else{
@@ -74,7 +72,7 @@ public class Main {
         while(st < en){
             int mid = st + (en - st) / 2;
 
-            if(arr.get(mid) <= target){
+            if(arr[mid] <= target){
                 st = mid + 1;
             }
             else{
@@ -91,7 +89,7 @@ public class Main {
         while(st < en){
             int mid = st + (en - st) / 2;
 
-            if(arr.get(mid) < target){
+            if(arr[mid] < target){
                 st = mid + 1;
             }
             else{
@@ -100,5 +98,4 @@ public class Main {
         }
         return st;
     }
-
 }
