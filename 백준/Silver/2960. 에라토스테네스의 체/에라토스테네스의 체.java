@@ -1,53 +1,53 @@
-
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+    static int n, k;
+    static boolean[] visited;
+
+    public static void main(String[] args) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
+        visited = new boolean[n + 1];
 
-        boolean[] visited = new boolean[n + 1];
-
-        visited[0] = true;
-        visited[1] = true;
-
-        Integer count = 0;
-
-        for(int i = 2; i <= n; i++)
-        {
-            if(count == k){
-                break;
-            }
-            if(!visited[i])
-            {
-                visited[i] = true;
-                count += 1;
-                if (count == k){
-                    bw.write(i + "");
-                    break;
-                }
-
-                for (int j = 2*i; j <= n; j += i){
-                    if(visited[j]) continue;
-                    visited[j] = true;
-                    count += 1;
-                    if (count == k){
-                        bw.write(j + "");
-                        break;
-                    }
-                }
-
-            }
-        }
+        printK();
 
         br.close();
         bw.close();
+    }
 
+    public static void printK() throws IOException{
+        int count = 0;
+        for(int i = 2; i <= n; i++){
+            int divisor = -1;
+            if(visited[i]){
+                continue;
+            }
+            divisor = i;
+            visited[i] = true;
+            count += 1;
+            //bw.write(i + " \n");
+            if(count == k){
+                bw.write(i + "");
+                return;
+            }
+
+            for(int j = i * 2; j <= n; j += i){
+                if(!visited[j]){
+                    visited[j] = true;
+                    count += 1;
+                    //bw.write(j + " \n");
+                    if(count == k){
+                        bw.write(j + "");
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
