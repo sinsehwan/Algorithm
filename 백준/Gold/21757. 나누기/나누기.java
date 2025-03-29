@@ -29,7 +29,7 @@ public class Main {
             arr[i] += arr[i - 1];
         }
 
-        if(arr[n - 1] % 4 != 0){
+        if(Math.abs(arr[n - 1] % 4) != 0){
             bw.write("0");
             return;
         }
@@ -38,6 +38,16 @@ public class Main {
     }
 
     long calDp(){
+        if(arr[n - 1] == 0){
+            int count = 0;
+            for(int i = 0; i < n; i++){
+                if(arr[i] == 0){
+                    count += 1;
+                }
+            }
+            return calCombination(count - 1, 0, 3);
+        }
+
         long s1 = arr[n - 1] / 4;
         long s2 = arr[n - 1] / 2;
         long s3 = arr[n - 1] / 4 * 3;
@@ -78,5 +88,21 @@ public class Main {
             }
         }
         return answer;
+    }
+
+    long calCombination(int n, int st, int remain){
+        if(st >= n && remain > 0){
+            return 0;
+        }
+        if(remain == 0){
+            return 1;
+        }
+
+        long num = 0;
+        for(int i = st; i < n; i++){
+            num += calCombination(n, i + 1, remain - 1);
+        }
+
+        return num;
     }
 }
