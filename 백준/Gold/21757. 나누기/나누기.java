@@ -39,13 +39,18 @@ public class Main {
 
     long calDp(){
         if(arr[n - 1] == 0){
-            int count = 0;
+            int c = 0;
             for(int i = 0; i < n; i++){
                 if(arr[i] == 0){
-                    count += 1;
+                    c += 1;
                 }
             }
-            return calCombination(count - 1, 0, 3);
+            if(c < 4){
+                return 0;
+            }
+            else{
+                return (long) (c - 1) * (c - 2) * (c - 3) / 6;
+            }
         }
 
         long s1 = arr[n - 1] / 4;
