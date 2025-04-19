@@ -6,7 +6,7 @@ public class Main {
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     int n;
-    int remain = 0;
+    long remain = 0;
     int[] cost;
     int[] soil;
 
@@ -20,13 +20,13 @@ public class Main {
     void solve() throws IOException {
         getInput();
 
-        int answer = 0;
+        long answer = 0;
         for(int i = 0; i < n - 1; i++){
-            int dist = findNext(i);
+            long dist = findNext(i);
             //bw.write(dist + " dist\n");
 
             if(remain < dist){
-                int buy = (dist - remain);
+                long buy = (dist - remain);
                 remain += buy;
                 answer += buy * soil[i];
                 //bw.write(answer + " answer\n");
@@ -44,8 +44,8 @@ public class Main {
                 .mapToInt(Integer::parseInt).toArray();
     }
 
-    int findNext(int place) {
-        int dist = 0;
+    long findNext(int place) {
+        long dist = 0;
         for(int i = place + 1; i < n; i++){
             dist += cost[i - 1];
             if(soil[i] < soil[place]) break;
