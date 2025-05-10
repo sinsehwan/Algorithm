@@ -14,10 +14,10 @@ public class Main {
 
     void solve() throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
+        long a = Long.parseLong(st.nextToken());
+        long b = Long.parseLong(st.nextToken());
 
-        int c = (a + b) * (a - b);
+        long c = (a + b) * (a - b);
 
         bw.write(c + "");
     }
