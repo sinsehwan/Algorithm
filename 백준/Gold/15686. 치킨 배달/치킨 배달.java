@@ -1,15 +1,19 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main{
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    static int n, m;
-    static int[][] graph;
-    static ArrayList<Node> chickens = new ArrayList<>();
-    static ArrayList<Node> houses = new ArrayList<>();
-    static LinkedList<Node> available = new LinkedList<>();
+    int n, m;
+
+    int[][] graph;
+
+    static ArrayList<Nd> chickens = new ArrayList<>();
+
+    static ArrayList<Nd> houses = new ArrayList<>();
+    static LinkedList<Nd> available = new LinkedList<>();
+
     static int answer = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
@@ -20,7 +24,7 @@ public class Main {
         bw.close();
     }
 
-    void solve() throws IOException{
+    void solve() throws IOException {
         getInput();
 
         dfs(0, m);
@@ -28,8 +32,9 @@ public class Main {
         bw.write(answer + "");
     }
 
-    void getInput() throws IOException{
+    void getInput() throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
@@ -43,16 +48,16 @@ public class Main {
         for(int i = 0; i < n; i++){
             for(int j = 0; j < n; j++){
                 if(graph[i][j] == 1){
-                    houses.add(new Node(i, j));
+                    houses.add(new Nd(i, j));
                 }
-                else if(graph[i][j] == 2){
-                    chickens.add(new Node(i, j));
+                else if(graph[i][j] == 2) {
+                    chickens.add(new Nd(i, j));
                 }
             }
         }
     }
 
-    void dfs(int st, int remain) throws IOException{
+    void dfs(int st, int remain) throws IOException {
         if(remain == 0){
             check();
             return;
@@ -67,13 +72,12 @@ public class Main {
 
     void check() throws IOException {
         int total = 0;
-        for(Node house : houses){
+        for(Nd house : houses) {
             int best = Integer.MAX_VALUE;
-            for(Node chicken : available){
+            for(Nd chicken : available){
                 int dist = Math.abs(house.y - chicken.y) + Math.abs(house.x - chicken.x);
                 best = Math.min(dist, best);
             }
-            //bw.write("house : " + house.y + house.x + ", best : " + best + "\n");
 
             total += best;
         }
@@ -83,11 +87,10 @@ public class Main {
     }
 }
 
-
-class Node{
+class Nd{
     int y, x;
 
-    public Node(int y, int x){
+    public Nd(int y, int x){
         this.y = y;
         this.x = x;
     }
