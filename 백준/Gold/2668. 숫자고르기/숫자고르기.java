@@ -2,12 +2,14 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     int n;
     int[] graph;
+    boolean[] visited;
+    boolean[] finished;
+    List<Integer> answer = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         new Main().solve();
@@ -19,25 +21,15 @@ public class Main {
     void solve() throws IOException {
         getInput();
 
-        ArrayList<Integer> answerLi = new ArrayList<>();
-
-        boolean[] visited;
-        for(int i = 1; i <= n; i++){
-            visited = new boolean[n + 1];
-            int cur = i;
-            int root = i;
-            while(!visited[cur]){
-                visited[cur] = true;
-                cur = graph[cur];
-            }
-
-            if(cur == root){
-                answerLi.add(cur);
+        for (int i = 1; i <= n; i++) {
+            if(!visited[i]){
+                dfs(i, new ArrayList<>());
             }
         }
 
-        bw.write(answerLi.size() + "\n");
-        for(int item : answerLi){
+        bw.write(answer.size() + "\n");
+        Collections.sort(answer);
+        for(int item : answer){
             bw.write(item + "\n");
         }
     }
@@ -49,5 +41,27 @@ public class Main {
         for(int i = 1; i <= n; i++){
             graph[i] = Integer.parseInt(br.readLine());
         }
+
+        visited = new boolean[n + 1];
+        finished = new boolean[n + 1];
+    }
+
+    void dfs(int cur, List<Integer> path) {
+        visited[cur] = true;
+        path.add(cur);
+
+        int next = graph[cur];
+        if(!visited[next]){
+            dfs(next, path);
+        }
+        else if(!finished[next]){
+            // 사이클 발견한 경우
+            for(int i = next; i != cur; i = graph[i]){
+                answer.add(i);
+            }
+            answer.add(cur);
+        }
+
+        finished[cur] = true;
     }
 }
