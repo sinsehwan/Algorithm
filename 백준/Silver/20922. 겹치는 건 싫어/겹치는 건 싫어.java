@@ -1,5 +1,10 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,21 +24,22 @@ public class Main {
     void solve() throws IOException {
         getInput();
 
-        int lIdx = 0;
-        int answer = 0;
+        int ans = 0;
+        int st = 0;
+        int en = 0;
 
-        for (int i = 0; i < n; i++) {
-            count[arr[i]] += 1;
-
-            while (count[arr[i]] > k) {
-                count[arr[lIdx]] -= 1;
-                lIdx += 1;
+        while (en < n) {
+            count[arr[en]] += 1;
+            while (count[arr[en]] > k) {
+                count[arr[st]] -= 1;
+                st += 1;
             }
 
-            answer = Math.max(i - lIdx + 1, answer);
+            ans = Math.max(en - st + 1, ans);
+            en += 1;
         }
 
-        bw.write(answer + "");
+        bw.write(ans + "");
     }
 
     void getInput() throws IOException {
